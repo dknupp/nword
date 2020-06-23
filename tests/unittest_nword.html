@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="../extension/nword.js"></script>
+    <script type="text/javascript">
+    function runTest(testInput, expectedText) {
+        // Note that getting the caller name is not possible like this if
+        // using strict mode, but this seems harmless enough while testing.
+        const currentTest = arguments.callee.caller.name,
+              testResult = getNewValue(testInput);
+
+        if (testResult != expectedText) {
+            throw '[FAIL] ' + currentTest;
+        } else {
+            // Append passing test result to body as a <div> element.
+            const msg = '[PASSED]: ' + currentTest,
+                  testDiv = document.createElement('div'),
+                  expectedTextParagraph = document.createElement("p"),
+                  expectedTextNode = document.createTextNode(expectedText),
+                  testResultParagraph = document.createElement("p"),
+                  testResultTextNode = document.createTextNode(msg);
+
+            expectedTextParagraph.appendChild(expectedTextNode);
+            testResultParagraph.appendChild(testResultTextNode);
+            testDiv.appendChild(expectedTextParagraph);
+            testDiv.appendChild(testResultParagraph);
+
+            document.body.appendChild(testDiv);
+            console.log(msg);
+        }
+    }
+
+    const testFunctions = {
+        testOne: function() {
+            let testData = "n_STR_a".replace(/_STR_/g, nwordTextToMask),
+                expected = "n+++a";
+
+            runTest(testData, expected);
+        },
+        testTwo: function() {
+            let rawString = "N_STR_az Wit Attitudes",
+                testData = rawString.replace(/_STR_/g, nwordTextToMask),
+                expected = "N+++az Wit Attitudes";
+
+            runTest(testData, expected);
+        },
+        testThree: function() {
+            let rawString = "NWA's 1991 album is N_STR_az4Life",
+                testData = rawString.replace(/_STR_/g, nwordTextToMask),
+                expected = "NWA's 1991 album is N+++az4Life";
+
+            runTest(testData, expected);
+        },
+        testFour: function() {
+            let testData = 'N_STR_A'.replace(/_STR_/g, nwordTextToMask),
+                expected = 'N+++A';
+
+            runTest(testData, expected);
+        },
+        testFive: function() {
+            let rawString = "N_STR_ardly, meaning stingy, is derived from a " +
+                            "Scandinavian root. It is not related to the racial " +
+                            "epithet 'n_STR_er' (or 'n_STR_a'), although " +
+                            "sn_STR_ering adolescents might believe otherwise."
+                testData = rawString.replace(/_STR_/g, nwordTextToMask),
+                expected =  "Niggardly, meaning stingy, is derived from a " +
+                            "Scandinavian root. It is not related to the racial " +
+                            "epithet 'n+++er' (or 'n+++a'), although " +
+                            "sniggering adolescents might believe otherwise.";
+
+            runTest(testData, expected);
+        },
+        testSix: function() {
+            let rawString = "Some draw a distinction between 'n_STR_a' and 'n_STR_er'.",
+                testData = rawString.replace(/_STR_/g, nwordTextToMask),
+                expected =  "Some draw a distinction between 'n+++a' and 'n+++er'.";
+
+            runTest(testData, expected);
+        },
+        testSeven: function() {
+            let rawString = "Alternate spellings include 'n_STR_ah' and 'n_STR_uh'.",
+                testData = rawString.replace(/_STR_/g, nwordTextToMask),
+                expected =  "Alternate spellings include 'n+++ah' and 'n+++uh'.";
+
+            runTest(testData, expected);
+        }
+    }
+
+    window.onload = function() {
+        for (let test in testFunctions) {
+            testFunctions[test]();
+        }
+    }
+    </script>
+</head>
+<body></body>
+</html>
