@@ -9,7 +9,7 @@
       "matches": ["*://*/*", "file://*"],
       "all_frames": true,
       "js": ["nword.js"],
-      "run_at": "document_end"
+      "run_at": "document_idle"
     }
   ]
 }
