@@ -11,7 +11,7 @@
               expectedTextParagraph = document.createElement("p"),
               expectedTextNode = document.createTextNode("EXPECTED: " + expectedText),
               testOutcomeParagraph = document.createElement("p"),
-              testResult = getNewValue(testInput);
+              testResult = getRedactedValue(testInput);
 
         expectedTextParagraph.appendChild(expectedTextNode);
         testDiv.appendChild(expectedTextParagraph);
@@ -39,27 +39,27 @@
 
     const testFunctions = {
         testOne: function() {
-            let testData = "n_STR_a".replace(/_STR_/g, nwordTextToMask),
+            let testData = "n_STR_a".replace(/_STR_/g, "igg"),
                 expected = "n+++a";
 
             runTest(testData, expected);
         },
         testTwo: function() {
             let rawString = "N_STR_az Wit Attitudes",
-                testData = rawString.replace(/_STR_/g, nwordTextToMask),
+                testData = rawString.replace(/_STR_/g, "igg"),
                 expected = "N+++az Wit Attitudes";
 
             runTest(testData, expected);
         },
         testThree: function() {
             let rawString = "NWA's 1991 album is N_STR_az4Life",
-                testData = rawString.replace(/_STR_/g, nwordTextToMask),
+                testData = rawString.replace(/_STR_/g, "igg"),
                 expected = "NWA's 1991 album is N+++az4Life";
 
             runTest(testData, expected);
         },
         testFour: function() {
-            let testData = 'N_STR_A'.replace(/_STR_/g, nwordTextToMask),
+            let testData = 'N_STR_A'.replace(/_STR_/g, "igg"),
                 expected = 'N+++A';
 
             runTest(testData, expected);
@@ -69,7 +69,7 @@
                             "Scandinavian root. It is not related to the racial " +
                             "epithet 'n_STR_er' (or 'n_STR_a'), although " +
                             "sn_STR_ering adolescents might believe otherwise."
-                testData = rawString.replace(/_STR_/g, nwordTextToMask),
+                testData = rawString.replace(/_STR_/g, "igg"),
                 expected =  "Niggardly, meaning stingy, is derived from a " +
                             "Scandinavian root. It is not related to the racial " +
                             "epithet 'n+++er' (or 'n+++a'), although " +
@@ -79,15 +79,22 @@
         },
         testSix: function() {
             let rawString = "Some draw a distinction between 'n_STR_a' and 'n_STR_er'.",
-                testData = rawString.replace(/_STR_/g, nwordTextToMask),
+                testData = rawString.replace(/_STR_/g, "igg"),
                 expected =  "Some draw a distinction between 'n+++a' and 'n+++er'.";
 
             runTest(testData, expected);
         },
         testSeven: function() {
             let rawString = "Alternate spellings include 'n_STR_ah' and 'n_STR_uh'.",
-                testData = rawString.replace(/_STR_/g, nwordTextToMask),
+                testData = rawString.replace(/_STR_/g, "igg"),
                 expected =  "Alternate spellings include 'n+++ah' and 'n+++uh'.";
+
+            runTest(testData, expected);
+        },
+        testEight: function() {
+            let rawString = "Until the late 18th century n_STR_er was synonymous with Negro.",
+                testData = rawString.replace(/_STR_/g, "ig(g)"),
+                expected =  "Until the late 18th century n+++er was synonymous with Negro.";
 
             runTest(testData, expected);
         }

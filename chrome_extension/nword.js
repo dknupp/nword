@@ -1,6 +1,6 @@
 'use strict';
 
-const nwordTextToMask = 'igg',
+const nwordTextToMask = 'igg|ig\\(g\\)',
       nwordEndings = '(a(?!rd).*?|er.*?|u[hrsz].*?)',
       nwordPattern = "\\b([nN])(" + nwordTextToMask + ")" + nwordEndings + "\\b",
       nwordRegex = new RegExp(nwordPattern, "gi"),
@@ -13,7 +13,7 @@ function findAndUpdateTextNodes() {
             if(childNode.nodeType === TEXTNODE) {
                 const value = childNode.nodeValue;
                 if (nwordRegex.test(value)) {
-                    childNode.nodeValue = getNewValue(value);
+                    childNode.nodeValue = getRedactedValue(value);
                 }
             }
         });
@@ -21,7 +21,7 @@ function findAndUpdateTextNodes() {
 }
 
 
-function getNewValue (value) {
+function getRedactedValue (value) {
     return value.replace(nwordRegex, '$1+++$3');
 }
 

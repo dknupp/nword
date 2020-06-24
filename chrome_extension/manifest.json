@@ -1,7 +1,7 @@
 {
-  "name": "N/Word",
+  "name": "N-Word Redactor",
   "version": "0.0.1",
-  "description": "Masks a common racial epithet from web pages",
+  "description": "Redacts a common racial epithet from web pages",
   "manifest_version": 2,
 
   "content_scripts": [
