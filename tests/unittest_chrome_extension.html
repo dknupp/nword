@@ -7,24 +7,31 @@
         // Note that getting the caller name is not possible like this if
         // using strict mode, but this seems harmless enough while testing.
         const currentTest = arguments.callee.caller.name,
+              testDiv = document.createElement('div'),
+              expectedTextParagraph = document.createElement("p"),
+              expectedTextNode = document.createTextNode("EXPECTED: " + expectedText),
+              testOutcomeParagraph = document.createElement("p"),
               testResult = getNewValue(testInput);
 
+        expectedTextParagraph.appendChild(expectedTextNode);
+        testDiv.appendChild(expectedTextParagraph);
+
         if (testResult != expectedText) {
-            throw '[FAIL] ' + currentTest;
+            const msg = "[FAILED]: " + currentTest,
+                  testOutcomeTextNode = document.createTextNode(msg);
+
+            testOutcomeParagraph.appendChild(testOutcomeTextNode);
+            testDiv.appendChild(testOutcomeParagraph);
+            document.body.appendChild(testDiv);
+            console.log("RECEIVED: " + testResult)
+            throw msg;
         } else {
             // Append passing test result to body as a <div> element.
-            const msg = '[PASSED]: ' + currentTest,
-                  testDiv = document.createElement('div'),
-                  expectedTextParagraph = document.createElement("p"),
-                  expectedTextNode = document.createTextNode(expectedText),
-                  testResultParagraph = document.createElement("p"),
-                  testResultTextNode = document.createTextNode(msg);
+            const msg = "[PASSED]: " + currentTest,
+                  testOutcomeTextNode = document.createTextNode(msg);
 
-            expectedTextParagraph.appendChild(expectedTextNode);
-            testResultParagraph.appendChild(testResultTextNode);
-            testDiv.appendChild(expectedTextParagraph);
-            testDiv.appendChild(testResultParagraph);
-
+            testOutcomeParagraph.appendChild(testOutcomeTextNode);
+            testDiv.appendChild(testOutcomeParagraph);
             document.body.appendChild(testDiv);
             console.log(msg);
         }
